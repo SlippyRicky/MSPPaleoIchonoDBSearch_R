@@ -11,11 +11,6 @@ rm(list=ls())
 #################### Software Set Up ######################
 #install.packages(c("RPostgreSQL", "DBI", "odbc", "RODBC", "dplyr", "dbplyr"))
 library(RPostgreSQL)
-library(DBI)
-library(RODBC)
-library(odbc)
-library(dplyr)
-library(dbplyr)
 
 
 ###################### Connect Database ######################
