@@ -9,7 +9,7 @@ rm(list=ls())
 
 
 #################### Software Set Up ######################
-#install.packages(c("RPostgreSQL", "DBI", "odbc", "RODBC", "dplyr", "dbplyr"))
+install.packages("RPostgreSQL")
 library(RPostgreSQL)
 
 
