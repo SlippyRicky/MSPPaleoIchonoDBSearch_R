@@ -25,7 +25,18 @@ con <- dbConnect(
   password = "password")         #password
 
 
-###################### Examples of Query ######################
+###################### Roll back commitment ######################
+# Start editing
+dbBegin(con)
+# Roll back
+dbRollback(con)
+# Commit
+dbCommit(con)
+# Disconnect
+dbDisconnect(con)
+
+
+###################### Examples of editing ######################
 
 ########### Query the tables
 tables <- dbListTables(con)
