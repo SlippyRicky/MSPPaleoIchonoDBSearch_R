@@ -87,7 +87,7 @@ query <- "SELECT *
 table <- dbGetQuery(con, query)
 
 
-########### 2. Order data
+########### 2. Order data  (changes to tables in R only)
 
 # Get ordered table "msp" based on "picture number" in ascending order
 query <- "SELECT * FROM msp ORDER BY \"picture number\";"
