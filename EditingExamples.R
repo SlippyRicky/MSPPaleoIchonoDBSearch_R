@@ -59,7 +59,15 @@ dbExecute(con, query)
 
 
 
-########### 2. Delete data (changes to the table from the dataset)
+########### 2. Insert data (changes to the table from the dataset)
+
+# Insert a new row with "specimen" as "specimen"
+query <- "INSERT INTO public.msp (\"specimen\") VALUES ('specimen');"
+dbExecute(con, query)
+
+
+
+########### 3. Delete data (changes to the table from the dataset)
 
 # Delete the table "msp"
 query <- "DELETE FROM msp"
@@ -72,7 +80,7 @@ dbExecute(con, query)
 
 
 
-########### 3. Order data (changes to the table from the dataset)
+########### 4. Order data (changes to the table from the dataset)
 
 # Get ordered table "msp" based on "picture number" in ascending order
 query <- "SELECT * FROM msp ORDER BY \"picture number\";"
@@ -90,7 +98,7 @@ dbExecute(con, query)
 
 
 
-########### 4. Editing in R could be done by more R functions
+########### 5. Editing in R could be done by more R functions
 
 
 
