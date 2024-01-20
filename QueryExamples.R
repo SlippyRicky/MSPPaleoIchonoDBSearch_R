@@ -86,6 +86,13 @@ query <- "SELECT *
           WHERE bone NOT IN ('rib', 'humerus', 'scapula');"
 table <- dbGetQuery(con, query)
 
+# Find a certain cell from table "msp" by giving a certain row and column
+query <- "SELECT bone
+          FROM msp
+          WHERE \"picture number\" = '1900';"
+table <- dbGetQuery(con, query)
+
+
 
 ########### 2. Order data  (changes to tables in R only)
 
