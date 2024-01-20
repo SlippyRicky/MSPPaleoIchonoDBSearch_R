@@ -57,6 +57,12 @@ query <- "UPDATE msp
           WHERE specimen = 'C. cristata';"
 dbExecute(con, query)
 
+# Set a certain cell from table "msp" by giving a certain row and column
+query <- "UPDATE msp
+          SET sex = 'female'
+          WHERE \"picture number\" = '1';"
+dbExecute(con, query)
+
 
 
 ########### 2. Insert data (changes to the table from the dataset)
