@@ -21,6 +21,15 @@ con <- dbConnect(
   user = "postgres",             #username
   password = "password")         #password
 
+########### Test query to check the connection
+test_query <- "SELECT 1"
+test_result <- dbGetQuery(con, test_query)
+if (!is.null(result)) {
+  cat("Connection verified. Test query successful.\n")
+} else {
+  cat("Error: Connection test query failed.\n")
+}
+
 
 ###################### Examples of Query ######################
 
