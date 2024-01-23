@@ -1,37 +1,39 @@
+library(shiny)
+
 # Server logic
-server <- function(input, output, session) {
-  # Read data reactively
+server <- function(input, output) {
+  # Read data from the "bone_data.csv" file
   data <- reactive({
-    read.csv("bone_data.csv")
+    read.csv("bone_data.csv", stringsAsFactors = FALSE)
   })
   
-  # Render the table view
+  # Render the initial table view
   output$table_view <- renderDT({
     data()
   })
   
-  # Implement the search logic
-  output$search_result <- renderPrint({
-    # Your search logic using input$bone_name goes here
-  })
   
-  # Show/hide About page dynamically
-  observeEvent(input$show_about_page, {
-    insertUI(
-      selector = "#about_page",
-      where = "afterEnd",
-      ui = about_page_ui
-    )
-  })
+  ui_search <- search_ui
   
-  observeEvent(input$hide_about_page, {
-    removeUI(selector = "#about_page")
-  })
-  
-  # Render About page UI
-  output$about_page <- renderUI({
-    about_page_ui
+  output$'search_DB'
+  # Implement the refined search logic
+  observeEvent(input$search_button, {
+    search_words <- tolower(strsplit(input$search_input, " ")[[1]])
+    
+    # Check if search_words is not empty before filtering
+    if (length(search_words) > 0) {
+      # Filter data based on the presence of exact search_words in relevant columns
+      filtered_data <- data()[apply(data(), 1, function(row) any(sapply(row, function(cell) any(tolower(cell) %in% search_words)))), ]
+    } else {
+      # If search_words is empty, show all data
+      filtered_data <- data()
+    }
+    
+    output$search_result <- renderDT({
+      filtered_data
+    })
   })
 }
+
 
 
