@@ -2,10 +2,37 @@ library(shiny)
 library(shinydashboard)
 library(DT)
 
-# UI for About page
+# UI for Landing page
 about_page_ui <- fluidPage(
   h3("This is the About Page"),
   actionButton("hide_about_page", "Hide About Page")
+)
+
+# UI for About Seal page
+about_seal_page_ui <- fluidPage(
+  h3("This is the About Seal Page")
+)
+
+#UI for the search Page:
+search_ui <- fluidRow(
+    box(
+      title="Search",
+      status = "primary",
+      solideHeader= TRUE,
+      width = 12,
+      textInput("search_input", label = "Enter search words", value = ""),
+      actionButton("search_button", "Search")
+    ),
+    fluidRow(
+      box(
+        title="Search",
+        status = "primary",
+        solideHeader= TRUE,
+        width = 12,
+        DTOutput("search_result"),
+        textOutput("error")
+    )
+  )
 )
 
 # Define UI
@@ -20,33 +47,37 @@ ui <- dashboardPage(
       menuItem("Update Tables", tabName = "update_table", icon = icon("exchange-alt")),
       menuItem("Insert Entries", tabName = "insert_value", icon = icon("edit")),
       menuItem("Delete Tables", tabName = "del_table", icon = icon("trash-alt")),
-      menuItem("About", tabName = "about", icon = icon("info-circle"))
+      menuItem("Help", tabName = "help", icon = icon("info-circle")),  # Changed "About" to "Help"
+      menuItem("About Seal", tabName = "about_seal", icon = icon("info-circle"))  # Added "About Seal" tab
     )
   ),
-  dashboardBody(
+    
     tabItems(
       tabItem(tabName = "view_table",
               DTOutput("table_view")),
-      tabItem(tabName = "search_db",
-              h2("Search Database"),
-              textInput("bone_name", label = "Bone Name", value = ""),
-              actionButton("search_button", "Search"),
-              verbatimTextOutput("search_result")),
+      tabItem(tabName = "search_db", search_ui
+                )
+              )
+      )
       tabItem(tabName = "create_table",
-              h2("Create Table")),
+              h2("Create Table"))
       tabItem(tabName = "update_table",
-              h2("Update Table")),
+              h2("Update Table"))
       tabItem(tabName = "insert_value",
-              h2("Insert Entry")),
+              h2("Insert Entry"))
       tabItem(tabName = "del_table",
-              h2("Delete Table")),
-      tabItem(tabName = "about",
-              h2("About"),
+              h2("Delete Table"))
+      tabItem(tabName = "help",  # Changed "About" to "Help"
+              h2("Help"),
               fluidPage(
                 actionButton("show_about_page", "Show About Page"),
                 uiOutput("about_page")
               )
       )
-    )
-  )
-)
+      tabItem(tabName = "about_seal",  # Added "About Seal" tab
+              h2("About Seal"),
+              fluidPage(
+                # UI components for the "About Seal" tab go here
+              )
+      )
+    
