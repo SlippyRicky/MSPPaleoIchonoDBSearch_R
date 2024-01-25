@@ -1,10 +1,10 @@
-# RichonoDB: R Shiny App for Searching a Database and Images with Metadata
+# S.E.A.L. : R Shiny App for Searching a Database and Images with Metadata
 
 This repository contains an R Shiny application for searching a database and images with metadata. The application is built using the [RShiny](https://shiny.rstudio.com/) package and [R Markdown](https://rmarkdown.rstudio.com/) for generating dynamic documentation.
 
 ## Project Overview
 
-RichonoDB is a versatile tool that empowers users to efficiently search and retrieve relevant information from databases and image collections. It's designed to handle various data types and metadata, making it a valuable resource for researchers, analysts, and anyone seeking to explore and analyze data effectively.
+S.E.A.L.  is a versatile tool that empowers users to efficiently search and retrieve relevant information from databases and image collections. It's designed to handle various data types and metadata, making it a valuable resource for researchers, analysts, and anyone seeking to explore and analyze data effectively.
 
 ## Project Features
 
