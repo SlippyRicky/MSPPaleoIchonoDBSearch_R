@@ -68,27 +68,13 @@ ui <- dashboardPage(
     useShinyjs(),  # Initialize shinyjs
     
     tabItems(
-      tabItem(tabName = "view_table",
-              DTOutput("table_view")),
-      
-      tabItem(tabName = "search_db",
-              search_ui),
-      
-      tabItem(tabName = "create_table",
-              h2("Create Table")),
-      
-      tabItem(tabName = "update_table",
-              h2("Update Table"),
-              update_ui),
-      
-      tabItem(tabName = "insert_value",
-              h2("Insert Entry")),
-      
-      tabItem(tabName = "del_table",
-              h2("Delete Table")),
-      
-      tabItem(tabName = "help",  # Changed "About" to "Help"
-              h2("Help"),
+      tabItem(tabName = "view_table", DTOutput("table_view")),
+      tabItem(tabName = "search_db", search_ui),
+      tabItem(tabName = "create_table", h2("Create Table")),
+      tabItem(tabName = "update_table", h2("Update Table"), update_ui),
+      tabItem(tabName = "insert_value", h2("Insert Entry")),
+      tabItem(tabName = "del_table", h2("Delete Table")),
+      tabItem(tabName = "help", h2("Help"), 
               fluidPage(
                 actionButton("show_about_page", "Show About Page"),
                 uiOutput("about_page")
