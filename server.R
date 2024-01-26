@@ -7,15 +7,11 @@ server <- function(input, output) {
     read.csv("bone_data.csv", stringsAsFactors = FALSE)
   })
   
-  # Render the initial table view
+  # Render the initial table view without search functionality
   output$table_view <- renderDT({
     data()
-  })
+  }, options = list(scrollX = TRUE, searching = FALSE))  # Make the DataTable scrollable and remove search functionality
   
-  
-  ui_search <- search_ui
-  
-  output$'search_DB'
   # Implement the refined search logic
   observeEvent(input$search_button, {
     search_words <- tolower(strsplit(input$search_input, " ")[[1]])
@@ -31,9 +27,8 @@ server <- function(input, output) {
     
     output$search_result <- renderDT({
       filtered_data
-    })
+    }, options = list(scrollX = TRUE, searching = FALSE))  # Make the DataTable scrollable and remove search functionality
   })
 }
-
 
 
