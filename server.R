@@ -2,8 +2,11 @@ library(shiny)
 
 # Server logic for the "Update Table" tab
 server <- function(input, output, session) {
-  # Read data from the "bone_data.csv" file
-  data <- reactiveVal(read.csv("bone_data.csv", stringsAsFactors = FALSE))
+  # Read data from the "data_tags.csv" file
+  data <- reactiveVal(read.csv("data_tags.csv", stringsAsFactors = FALSE))
+  
+  # Reactive value to store updates for About Seal tab
+  updates <- reactiveVal(NULL)
   
   # Render the initial table view without search functionality
   output$table_view <- renderDT({
@@ -25,9 +28,9 @@ server <- function(input, output, session) {
       filtered_data <- data()
     }
     
-    output$search_result <- renderDT({
+    output$update_table <- renderDT({
       filtered_data
-    }, options = list(scrollX = TRUE, searching = FALSE))  # Make the DataTable scrollable and remove search functionality
+    }, options = list(scrollX = TRUE, dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
   })
   
   # Render the update table with editable cells
@@ -56,16 +59,30 @@ server <- function(input, output, session) {
       cell_col <- info$col
       new_value <- info$value
       
-      modified_data[cell_row, cell_col] <- new_value
+      # Capture the update
+      update <- data.frame(
+        Row = cell_row,
+        Column = colnames(modified_data)[cell_col],
+        Old_Value = modified_data[cell_row, cell_col],
+        New_Value = new_value
+      )
       
       # Print debugging information
       cat("Cell Edited - Row:", cell_row, "Column:", cell_col, "New Value:", new_value, "\n")
       
-      # Write the updated data back to the source file (e.g., CSV)
-      write.csv(modified_data, "bone_data.csv", row.names = FALSE)
-      
       # Update the reactive data
+      modified_data[cell_row, cell_col] <- new_value
       data(modified_data)
+      
+      # Update the reactive value with the captured update
+      updates(rbind(updates(), update))
     }
+  })
+  
+  # Expose updates for About Seal tab
+  observeEvent(updates(), {
+    updates_data <- updates()
+    updateTabsetPanel(session, "mainTabs", "about_seal")
+    updateTextAreaInput(session, "updates_text", value = paste0(capture.output(updates_data), collapse = "\n"))
   })
 }
