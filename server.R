@@ -16,8 +16,10 @@ server <- function(input, output, session) {
     
     # Check if search_words is not empty before filtering
     if (length(search_words) > 0) {
-      # Filter data based on the presence of exact search_words in relevant columns
-      filtered_data <- data()[apply(data(), 1, function(row) any(sapply(row, function(cell) any(tolower(cell) %in% search_words)))), ]
+      # Filter data based on the exact presence of search_words in relevant columns
+      filtered_data <- data()[apply(data(), 1, function(row) {
+        all(sapply(search_words, function(word) any(grepl(paste0("\\b", word, "\\b"), tolower(row), ignore.case = TRUE))))
+      }), ]
     } else {
       # If search_words is empty, show all data
       filtered_data <- data()
@@ -38,7 +40,6 @@ server <- function(input, output, session) {
       editable = TRUE,
       options = list(
         scrollX = TRUE,
-        searching = FALSE,
         dom = 'Bfrtip',  # Add buttons to the table
         buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
       )
