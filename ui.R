@@ -1,7 +1,7 @@
+library(shinyjs)
 library(shiny)
 library(shinydashboard)
 library(DT)
-library(shinyjs)
 
 # UI for Landing page
 about_page_ui <- fluidPage(
@@ -36,6 +36,17 @@ search_ui <- fluidRow(
   )
 )
 
+# UI for the update Page:
+update_ui <- fluidRow(
+  box(
+    title = "Update Table",
+    status = "primary",
+    solidHeader = TRUE,
+    width = 12,
+    DTOutput("update_table"),
+  )
+)
+
 # Define UI
 ui <- dashboardPage(
   skin = "purple",
@@ -67,7 +78,8 @@ ui <- dashboardPage(
               h2("Create Table")),
       
       tabItem(tabName = "update_table",
-              h2("Update Table")),
+              h2("Update Table"),
+              update_ui),
       
       tabItem(tabName = "insert_value",
               h2("Insert Entry")),
