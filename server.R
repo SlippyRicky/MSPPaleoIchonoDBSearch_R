@@ -1,5 +1,10 @@
 library(shiny)
 
+
+slidenames <- read.csv("SlideNames.csv")
+slidenames.vector <- unique(slidenames$Slide.Name)
+
+
 # Server logic for the "Update Table" tab
 server <- function(input, output, session) {
   # Read data from the "data_tags.csv" file
@@ -7,6 +12,25 @@ server <- function(input, output, session) {
   
   # Reactive value to store updates for About Seal tab
   updates <- reactiveVal(NULL)
+  
+  # Function to render selected image
+  output$selectedImage <- renderImage({
+    # Path to directory containing images
+    img_dir <- "www/"
+    
+    # Full file path to the selected (.png added to the end of the names specified in the vector)
+    img_path <- file.path(img_dir, paste0(input$image, ".png"))
+    
+    # Render the selected image
+    list(src = img_path, 
+         alt = "Selected Image",
+         width = "100%")
+  }, deleteFile = FALSE) # The file is stored in the UI once loaded (?)
+  
+  # Update dropdown choices based on slidenames.vector
+  observe({
+    updateSelectInput(session, "image", choices = slidenames.vector)
+  })
   
   # Render the initial table view without search functionality
   output$table_view <- renderDT({
@@ -86,3 +110,4 @@ server <- function(input, output, session) {
     updateTextAreaInput(session, "updates_text", value = paste0(capture.output(updates_data), collapse = "\n"))
   })
 }
+
