@@ -1,8 +1,6 @@
-library(shiny)
-
-
 slidenames <- read.csv("SlideNames.csv")
 slidenames.vector <- unique(slidenames$Slide.Name)
+
 
 
 # Server logic for the "Update Table" tab
@@ -12,6 +10,9 @@ server <- function(input, output, session) {
   
   # Reactive value to store updates for About Seal tab
   updates <- reactiveVal(NULL)
+  
+  # Reactive value to store filtered search results
+  filtered_search_results <- reactiveVal(NULL)
   
   # Function to render selected image
   output$selectedImage <- renderImage({
@@ -52,10 +53,30 @@ server <- function(input, output, session) {
       filtered_data <- data()
     }
     
-    output$update_table <- renderDT({
-      filtered_data
-    }, options = list(scrollX = TRUE, dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+    # Store filtered search results in reactive value
+    filtered_search_results(filtered_data)
   })
+  
+  # Render the search table
+  output$search_result <- renderDT({
+    filtered_data <- filtered_search_results()
+    if (!is.null(filtered_data)) {
+      datatable(filtered_data, options = list(scrollX = TRUE, searching = FALSE))
+    }
+  })
+  
+  # Function to generate CSV file for download
+  output$download_search_results <- downloadHandler(
+    filename = function() {
+      paste("search_results", ".csv", sep = "")
+    },
+    content = function(file) {
+      # Get the displayed search results
+      search_results <- filtered_search_results()
+      # Write the results to a CSV file
+      write.csv(search_results, file, row.names = FALSE)
+    }
+  )
   
   # Render the update table with editable cells
   output$update_table <- renderDT({
@@ -110,4 +131,3 @@ server <- function(input, output, session) {
     updateTextAreaInput(session, "updates_text", value = paste0(capture.output(updates_data), collapse = "\n"))
   })
 }
-
