@@ -24,7 +24,8 @@ search_ui <- fluidRow(
     solidHeader = TRUE,
     width = 12,
     textInput("search_input", label = "Enter search words", value = ""),
-    actionButton("search_button", "Search")
+    actionButton("search_button", "Search"),
+    downloadButton("download_search_results", "Download Search Results")
   ),
   fluidRow(
     box(
@@ -37,6 +38,7 @@ search_ui <- fluidRow(
     )
   )
 )
+
 
 # UI for the update Page:
 update_ui <- fluidRow(
@@ -82,11 +84,10 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Welcome", tabName = "welcome", icon = icon("home")),
       menuItem("View Tables", tabName = "view_table", icon = icon("search")),
-      menuItem("Search", tabName = "search_db", icon = icon("search")),
+      menuItem("Search & Download", tabName = "search_db", icon = icon("search")),
       menuItem("Create Tables", tabName = "create_table", icon = icon("plus-square")),
       menuItem("Update Tables", tabName = "update_table", icon = icon("exchange-alt")),
       menuItem("Insert Entries", tabName = "insert_value", icon = icon("edit")),
-      menuItem("Delete Tables", tabName = "del_table", icon = icon("trash-alt")),
       menuItem("Help", tabName = "help", icon = icon("info-circle")),
       menuItem("About Seal", tabName = "about_seal", icon = icon("info-circle"))
     )
@@ -114,9 +115,6 @@ ui <- dashboardPage(
       
       tabItem(tabName = "insert_value",
               h2("Insert Entry")),
-      
-      tabItem(tabName = "del_table",
-              h2("Delete Table")),
       
       tabItem(tabName = "help",
               h2("Help"),
